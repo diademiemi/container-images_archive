@@ -1,0 +1,45 @@
+FROM ubuntu:22.04
+
+ENV TZ=UTC
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update
+
+RUN apt-get install -y \
+    software-properties-common
+
+RUN add-apt-repository ppa:ondrej/php
+
+RUN apt-get update
+
+RUN apt-get install -y \
+    composer \
+    php8.1-xml \
+    php8.1-gd \
+    php8.1-curl \
+    php8.1-mysql \
+    nodejs \
+    npm \
+    git \
+    cron
+
+RUN mkdir /app
+
+RUN git clone https://github.com/leventdev/dropspace.git /app/dropspace
+
+WORKDIR /app/dropspace
+
+RUN composer install
+
+RUN npm install
+
+COPY env /app/dropspace/.env
+
+COPY dropspace-cron /etc/cron.d/dropspace-cron
+
+RUN npm run prod
+
+RUN chown -R www-data:www-data /app/dropspace
+
+ENTRYPOINT ["php", "artisan", "migrate", "&&", "php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]

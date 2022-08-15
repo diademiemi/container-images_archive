@@ -1,0 +1,29 @@
+# docker-compose up --build
+
+version: '3'
+
+services:
+  dropspace:
+    build: .
+    ports:
+      - "8000:80"
+    links:
+      - mysql
+    environment:
+      APP_URL: http://127.0.0.1:8080
+      APP_ASSETS: http://127.0.0.1:8080
+      APP_ENV: local
+      APP_KEY: 'set with php artisan key:generate'
+      DB_CONNECTIONS: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: dropspace
+      DB_USER: dropspace
+      DB_PASSWORD: dropspace
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: dropspace
+      MYSQL_DATABASE: dropspace
+      MYSQL_USER: dropspace
+      MYSQL_PASSWORD: dropspace
