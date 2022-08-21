@@ -113,14 +113,6 @@ jobs:
           version: latest
           driver-opts: image=moby/buildkit:latest
 
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
-          restore-keys: |
-            ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
-
       # Push if not a PR, otherwise just test the build process for all requested platforms
       - name: Build and Push
         uses: docker/build-push-action@v3
