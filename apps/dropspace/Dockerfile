@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+ARG VERSION
+
 ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -29,6 +31,8 @@ RUN mkdir /app
 RUN git clone https://github.com/leventdev/dropspace.git /app/dropspace
 
 WORKDIR /app/dropspace
+
+RUN git checkout "${VERSION}"
 
 RUN composer install
 
