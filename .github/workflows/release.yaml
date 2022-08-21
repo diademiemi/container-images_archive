@@ -128,7 +128,7 @@ jobs:
           build-args: VERSION=${{ steps.prep.outputs.version }}
           labels: |
             org.opencontainers.image.created=${{ steps.prep.outputs.build_date }}
-          context: .
+          context: ./${{ steps.prep.outputs.category }}/${{ matrix.container }}/
           platforms: ${{ steps.prep.outputs.platform }}
           file: ./${{ steps.prep.outputs.category }}/${{ matrix.container }}/Dockerfile
           push: ${{ steps.prep.outputs.push }}
