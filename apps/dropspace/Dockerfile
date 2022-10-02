@@ -46,4 +46,6 @@ RUN npm run prod
 
 RUN chown -R www-data:www-data /app/dropspace
 
+COPY entrypoint.sh /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
