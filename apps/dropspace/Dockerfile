@@ -46,4 +46,4 @@ RUN npm run prod
 
 RUN chown -R www-data:www-data /app/dropspace
 
-ENTRYPOINT ["php", "artisan", "migrate", "--force", "&&", "php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]
+ENTRYPOINT ["/entrypoint.sh"]
